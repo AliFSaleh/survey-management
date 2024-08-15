@@ -5,6 +5,8 @@ import databaseConfig from './database/config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { UserModule } from './user/user.module';
+import { UserController } from './controllers/user/user.controller';
 
 @Module({
   imports: [
@@ -18,9 +20,10 @@ import { DataSource, DataSourceOptions } from 'typeorm';
       dataSourceFactory: async (options: DataSourceOptions) => {
         return new DataSource(options).initialize();
       }
-    })
+    }),
+    UserModule
   ],
-  controllers: [],
+  controllers: [UserController],
   providers: [],
 })
 export class AppModule {}
