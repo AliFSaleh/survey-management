@@ -1,10 +1,14 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { UserService } from "src/user/services/user.service";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { AuthResponseDto } from "../dto/auth-response.dto";
 import { User } from "src/user/entities/user.entity";
 import { ConfigService } from "@nestjs/config";
+import { LoginUserDto } from "../dto/login-user.dto";
+import { RoleEnum } from "src/user/enums/role.enum";
+import { validatePassword } from "src/utils/auth.utils";
+import MESSAGES from "src/common/messages";
 
 @Injectable()
 export class AuthService {
@@ -32,7 +36,37 @@ export class AuthService {
         }
     }
 
-
+    /**
+     * Login user into the system
+     * @param {LoginUserDto} loginUserDto
+     * @returns {Promise<{string}>}
+     */
+    async login(loginUserDto: LoginUserDto): Promise<AuthResponseDto> {
+        const user = await this.userService.findOneByEmail(loginUserDto?.email);
+    
+        if (user) {
+          if (
+            user.role != RoleEnum.USER ||
+            !(await validatePassword(loginUserDto.password, user.password))
+          ) {
+            throw new HttpException(
+              MESSAGES.ERROR.INVALID_CREDENTIALS,
+              HttpStatus.UNAUTHORIZED
+            );
+          }
+    
+          const accessToken = await this.createAccessToken(user.id, user.role);
+    
+          await this.userService.updateUserAccessToken(user.id, accessToken);
+    
+          return { id: user.id, accessToken };
+        }
+    
+        throw new HttpException(
+          MESSAGES.ERROR.INVALID_CREDENTIALS,
+          HttpStatus.NON_AUTHORITATIVE_INFORMATION
+        );
+      }
 
 
     /**

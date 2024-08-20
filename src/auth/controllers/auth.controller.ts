@@ -2,6 +2,8 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { AuthService } from "../services/auth.service";
 import { CreateUserDto } from "../dto/create-user.dto";
 import MESSAGES from "src/common/messages";
+import { LoginUserDto } from "../dto/login-user.dto";
+import { AuthResponseDto } from "../dto/auth-response.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -22,6 +24,24 @@ export class AuthController {
             message: MESSAGES.SUCCESS.USER_CREATED,
             id: data.id,
             Authorization: `Bearer ${data.accessToken}`
+        };
+    }
+
+    /**
+     * Auth Login for User and generates a JWT access token for him..
+     * @param {LoginUserDto} loginUserDto
+     */
+    @Post("login")
+    @HttpCode(HttpStatus.OK)
+    async login(@Body() loginUserDto: LoginUserDto) {
+        const authResponseDto: AuthResponseDto = await this.authService.login(
+        loginUserDto
+        );
+
+        return {
+        message: MESSAGES.SUCCESS.SUCCESS,
+        id: authResponseDto.id,
+        Authorization: `Bearer ${authResponseDto.accessToken}`
         };
     }
 }

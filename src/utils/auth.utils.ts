@@ -20,3 +20,19 @@ export async function hashPasswordWithSaltAndPepper(
     )
     .toString("hex");
 }
+
+/**
+ * Function to compare a password that is sent by the frontend,
+ * it will add pepper to it and compare it with hashed password into the database
+ * @param {string} sentPassword
+ * @param {string} storedPasswordHash
+ * @returns {Promise<boolean>}
+ */
+export async function validatePassword(
+  sentPassword: string,
+  storedPasswordHash: string
+): Promise<boolean> {
+  return (
+    (await hashPasswordWithSaltAndPepper(sentPassword)) == storedPasswordHash
+  );
+}
