@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { UserModule } from './user/user.module';
-import { UserController } from './controllers/user/user.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,9 +21,10 @@ import { UserController } from './controllers/user/user.controller';
         return new DataSource(options).initialize();
       }
     }),
-    UserModule
+    UserModule,
+    AuthModule
   ],
-  controllers: [UserController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

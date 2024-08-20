@@ -22,6 +22,26 @@ class EnvironmentVariablesValidator {
     @IsString()
     @IsOptional()
     API_PREFIX: string;
+
+    @IsString()
+    @IsOptional()
+    SALT: string;
+  
+    @IsInt()
+    @IsOptional()
+    SALT_ROUNDS: number;
+  
+    @IsString()
+    @IsOptional()
+    PEPPER: string;
+  
+    @IsString()
+    @IsOptional()
+    JWT_ACCESS_SECRET: string;
+  
+    @IsString()
+    @IsOptional()
+    ACCESS_TOKEN_EXPIRES_IN: string;
 }
 
 export default registerAs<AppConfig>("app", () => {
@@ -32,5 +52,11 @@ export default registerAs<AppConfig>("app", () => {
     name: process.env.APPLICATION_NAME || CONSTANTS.APPLICATION_NAME,
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : CONSTANTS.PORT,
     apiPrefix: process.env.API_PREFIX || CONSTANTS.API_PREFIX,
+    salt: process.env.SALT || "",
+    saltRounds: parseInt(process.env.SALT_ROUNDS, 10) || CONSTANTS.SALT_ROUNDS,
+    pepper: process.env.PEPPER || "",
+    jwtAccessSecret: process.env.JWT_ACCESS_SECRET || "",
+    accessTokenExpiresIn:
+    process.env.ACCESS_TOKEN_EXPIRES_IN || CONSTANTS.ACCESS_TOKEN_EXPIRES_IN
   };
 });
