@@ -55,6 +55,27 @@ export class UserService {
         })
     }
 
+    /**
+     * Finds a user by id.
+     * @param {User["id"]} id - The id of the user to be retrieved.
+     * @returns {Promise<User>}
+     * @throws {HttpException} if the user does not exist.
+     */
+    async findOneById(id: User["id"]): Promise<User> {
+        const user = await this.userRepository.findOne({
+            where: { id }
+        });
+
+        if (!user) {
+        throw new HttpException(
+            MESSAGES.ERROR.ID_DOES_NOT_EXISTS,
+            HttpStatus.NOT_FOUND
+        );
+        }
+
+        return user;
+    }
+
     async updateUserAccessToken(
         id: User["id"],
         accessToken: string

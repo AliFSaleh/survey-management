@@ -1,5 +1,6 @@
 import * as crypto from "crypto";
 import CONSTANTS from "src/common/constants";
+import { RoleEnum } from "src/user/enums/role.enum";
 
 /**
  * Function encrypts password using "crypto"
@@ -35,4 +36,17 @@ export async function validatePassword(
   return (
     (await hashPasswordWithSaltAndPepper(sentPassword)) == storedPasswordHash
   );
+}
+
+/**
+ * Function to validate token properties that are sent by the frontend.
+ * @param {any} token
+ * @returns {boolean}
+ */
+export function validateTokenProperties(token: any): boolean {
+  return token.id
+    ? true
+    : false && token.role
+    ? true
+    : false && Object.values(token.role).includes(RoleEnum);
 }
