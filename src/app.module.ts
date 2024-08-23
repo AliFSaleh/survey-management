@@ -7,6 +7,7 @@ import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { AuthModule } from './auth/auth.module';
       }
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    CategoryModule
   ],
   controllers: [],
   providers: [],

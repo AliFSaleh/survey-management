@@ -6,6 +6,7 @@ import { getAllEnumValues } from "src/utils/helpers.utils"
  */
 export const ENTITIES = {
     USERS: "users",
+    CATEGORIES: "categories",
 }
 
 export const ALL_ROLES: RoleEnum[] = getAllEnumValues(RoleEnum);
