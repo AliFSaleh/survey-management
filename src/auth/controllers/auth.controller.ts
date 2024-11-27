@@ -23,7 +23,7 @@ export class AuthController {
        return {
             message: MESSAGES.SUCCESS.USER_CREATED,
             id: data.id,
-            Authorization: `Bearer ${data.accessToken}`
+            Authorization: `${data.accessToken}`
         };
     }
 
@@ -35,13 +35,13 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     async login(@Body() loginUserDto: LoginUserDto) {
         const authResponseDto: AuthResponseDto = await this.authService.login(
-        loginUserDto
+            loginUserDto
         );
 
         return {
         message: MESSAGES.SUCCESS.SUCCESS,
         id: authResponseDto.id,
-        Authorization: `Bearer ${authResponseDto.accessToken}`
+        Authorization: `${authResponseDto.accessToken}`
         };
     }
 }

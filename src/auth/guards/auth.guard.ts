@@ -25,7 +25,7 @@ import { validateTokenProperties } from "src/utils/auth.utils";
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = context.switchToHttp().getRequest();
   
-      const authHeader = request?.headers?.authorization;
+      const authHeader = request?.headers?.authorization;      
   
       if (!authHeader) {
         throw new HttpException(
@@ -42,7 +42,7 @@ import { validateTokenProperties } from "src/utils/auth.utils";
           HttpStatus.UNAUTHORIZED
         );
   
-      let payload;
+      let payload;      
   
       try {
         payload = await this.jwtService.verifyAsync(token, {
@@ -62,13 +62,13 @@ import { validateTokenProperties } from "src/utils/auth.utils";
         );
   
       const user: User = await this.userService.findOneById(payload.id);
-  
+      
       if (!user.accessToken || user.accessToken !== token)
         throw new HttpException(
           MESSAGES.ERROR.INVALID_JWT_TOKEN + ": " + payload,
           HttpStatus.UNAUTHORIZED
         );
-  
+
       request["user"] = payload;
   
       return true;

@@ -75,16 +75,16 @@ export class AuthService {
      * @param {User["role"]} role
      * @returns {Promise<string>}
      */
-    async createAccessToken(id: User["id"], role: User["role"]): Promise<string> {
+    async createAccessToken(id: User["id"], role: User["role"]): Promise<string> {      
         return this.jwtService.signAsync(
         { id, role },
         {
             secret: this.configService.get<string>("app.jwtAccessSecret", {
-            infer: true
+              infer: true
             }),
-            expiresIn: this.configService.get<string>("app.accessTokenExpiresIn", {
-            infer: true
-            })
+            // expiresIn: this.configService.get<string>("app.accessTokenExpiresIn", {
+            // infer: true
+            // })
         }
         );
     }

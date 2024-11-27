@@ -79,7 +79,7 @@ export class UserService {
     async updateUserAccessToken(
         id: User["id"],
         accessToken: string
-    ): Promise<User> {
-        return this.userRepository.save({ id, access_token: accessToken });
+    ){
+        this.userRepository.update(id, { accessToken: accessToken });
     }
 }
